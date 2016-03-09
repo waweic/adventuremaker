@@ -31,7 +31,7 @@ def main():
 
     pygame.key.set_repeat(1, 30)
 
-    raum = "./raum1.jpg"
+    raum = "raum1.jpg"
  
 
     # Clock-Objekt erstellen, das wir benötigen, um die Framerate zu begrenzen.
