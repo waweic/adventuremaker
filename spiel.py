@@ -3,6 +3,7 @@ import pygame
 import string
 import os.path
 import sys
+from time import sleep
 # Überprüfen, ob die optionalen Text- und Sound-Module geladen werden konnten.
 
 if not pygame.font: print('Fehler pygame.font Modul konnte nicht geladen werden!')
@@ -18,8 +19,10 @@ def main():
     # Fenster erstellen (wir bekommen eine Surface, die den Bildschirm repräsentiert).
 
     pygame.init()
-
+    pygame.mixer.pre_init(44100, -16, 2, 2048) # setup mixer to avoid sound lag
     screen = pygame.display.set_mode((800, 600))
+    pygame.init()
+    
 
  
 
@@ -83,12 +86,21 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if(not linie == None):
+                    linie = linie.split("\n")[0]
                     if("PRINT" in linie):
                         print(linie.split("PRINT")[1])
-                    elif("GOTO" in linie):
+                        linie = linie.split("PRINT")[0]
+                    if("GOTO" in linie):
                         raum = linie.split("GOTO")[1]
-                        raum = raum.split("\n")[0]
+                        linie = linie.split("GOTO")[0]
                         print raum
+                    if("SAY" in linie):
+                        sound = linie.split("SAY")[1]
+                        linie = sound.split("SAY")[0]
+                        #print ""
+                        pygame.mixer.Sound(sound).play()  #load sound
+    
+                    
 
             # Wir interessieren uns auch für "Taste gedrückt"-Events.
 
