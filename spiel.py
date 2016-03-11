@@ -87,17 +87,18 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if(not linie == None):
                     linie = linie.split("\n")[0]
-                    if("PRINT" in linie):
-                        print(linie.split("PRINT")[1])
-                        linie = linie.split("PRINT")[0]
-                    if("GOTO" in linie):
-                        raum = linie.split("GOTO")[1]
-                        linie = linie.split("GOTO")[0]
-                        print raum
-                    if("SAY" in linie):
-                        sound = linie.split("SAY")[1]
-                        linie = sound.split("SAY")[0]
-                        #print ""
+                    while("PRINT" in linie):
+                        gespalten = linie.rsplit("PRINT", 1)
+                        print(gespalten[1])
+                        linie = gespalten[0]
+                    while("GOTO" in linie):
+                        gespalten = linie.rsplit("GOTO", 1)
+                        raum = gespalten[1]
+                        linie = gespalten[0]
+                    while("SAY" in linie):
+                        gespalten = linie.rsplit("SAY", 1)
+                        sound = gespalten[1]
+                        linie = gespalten[0]
                         pygame.mixer.Sound(sound).play()  #load sound
     
                     
