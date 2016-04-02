@@ -28,13 +28,13 @@ def main():
 
     # Titel des Fensters setzen, Mauszeiger nicht verstecken und Tastendrücke wiederholt senden.
 
-    pygame.display.set_caption("Pygame-Tutorial: Grundlagen")
+    pygame.display.set_caption("F*CK THE TEACHERS")
 
     pygame.mouse.set_visible(1)
 
     pygame.key.set_repeat(1, 30)
 
-    raum = "raum1.jpg"
+    raum = "fertig/bild0.jpg"
  
 
     # Clock-Objekt erstellen, das wir benötigen, um die Framerate zu begrenzen.
@@ -93,7 +93,7 @@ def main():
                         linie = gespalten[0]
                     while("GOTO" in linie):
                         gespalten = linie.rsplit("GOTO", 1)
-                        raum = gespalten[1]
+                        raum = "bilder/" + gespalten[1]
                         linie = gespalten[0]
                     while("SAY" in linie):
                         gespalten = linie.rsplit("SAY", 1)

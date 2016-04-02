@@ -6,7 +6,20 @@
 
 import pygame
 import string
-if(True):
+import os, sys
+import platform
+import easygui
+if platform.system == "Windows":
+    os.environ['SDL_VIDEODRIVER'] = 'windib'
+
+def open_file_browser():
+    d = gui.FileDialog()
+    d.connect(gui.CHANGE, handle_file_browser_closed, d)
+    d.open()
+
+#else:
+ #   os.environ["SDL_VIDEODRIVER"] = "x11"
+while(True):
      
 
     # Überprüfen, ob die optionalen Text- und Sound-Module geladen werden konnten.
@@ -22,16 +35,21 @@ if(True):
         # Initialisieren aller Pygame-Module und    
 
         # Fenster erstellen (wir bekommen eine Surface, die den Bildschirm repräsentiert).
-
-        pygame.init()
+       # root = tk.Tk()
+        #embed = tk.Frame(root, width = 800, height = 600) #creates embed frame for pygame window
+        #embed.grid(columnspan = (600), rowspan = 500) # Adds grid
+        
+        #os.environ['SDL_WINDOWID'] = str(embed.winfo_id())
 
         screen = pygame.display.set_mode((800, 600))
-
+        pygame.display.init()
+        pygame.display.update()
+        
      
 
         # Titel des Fensters setzen, Mauszeiger nicht verstecken und Tastendrücke wiederholt senden.
 
-        pygame.display.set_caption("Pygame-Tutorial: Grundlagen")
+        pygame.display.set_caption("Vereinfachung")
 
         pygame.mouse.set_visible(1)
 
@@ -40,10 +58,9 @@ if(True):
      
 
         # Clock-Objekt erstellen, das wir benötigen, um die Framerate zu begrenzen.
-
         clock = pygame.time.Clock()
-
-        image = raw_input("Was willst du bearbeiten?")
+        path = easygui.fileopenbox()
+        image = path
         myfile = file(string.replace(image, '.jpg', '.txt'), 'w')   # File-Handle auf File 'test.txt' erstellen
         myfile.close()
         print("Klick auf den ersten Punkt.")
@@ -90,12 +107,14 @@ if(True):
                         
                             print("Klick auf den zweiten Pumkt.")
                         elif(counter == 1):
+                            path = easygui.fileopenbox()
+                            path = path.rsplit('/', 1)
                             zeile = ""
                             if(x < 100):
                                 x = "0" + str(x)
                             if(y < 100):
                                 y = "0" + str(y)
-                            zeile = zeile1 + str(x) + "B" + str(y) + "PRINTNur ein Platzhalter"
+                            zeile = zeile1 + str(x) + "B" + str(y) + "GOTO" + path[1]
                             counter = 2
                             print(zeile)
                             try:
@@ -119,7 +138,7 @@ if(True):
 
                     if event.key == pygame.K_ESCAPE:
 
-                        pygame.event.post(pygame.event.Event(pygame.QUIT))
+                        running = False
 
      
 
@@ -138,3 +157,7 @@ if(True):
         # Unsere Main-Funktion aufrufen.
 
         main()
+        
+    #while True:
+     #   pygame.display.update()
+      #  root.update()    
