@@ -4,6 +4,7 @@ import string
 import os.path
 import sys
 from time import *
+import pickle
 # Überprüfen, ob die optionalen Text- und Sound-Module geladen werden konnten.
 
 if not pygame.font: print('Fehler pygame.font Modul konnte nicht geladen werden!')
@@ -25,9 +26,23 @@ def main():
     screen = pygame.display.set_mode((800, 600))
     pygame.init()
     playing = False
+    ####################
     slots = ["cursor.jpg","","cursor.png",""]
-    
     holding = ""
+    raum = "fertig/bild0.jpg"
+    ####################
+    try:
+        f = open("inventory.dat")
+        slots = pickle.load(f)
+        f.close()
+        f = open("holding.dat")
+        holding = pickle.load(f)
+        f.close()
+        f = open("position.dat")
+        raum = pickle.load(f)
+        f.close()
+    except IOError:
+        print("Herzlich Willkommen zu deinem wunderschönem neuem Spiel!")
     holdingsurface = pygame.image.load("cursor.jpg")
     dummysurface = holdingsurface
     slotsurfaces=[holdingsurface, holdingsurface, holdingsurface, holdingsurface]
@@ -46,7 +61,7 @@ def main():
 
     pygame.key.set_repeat(1, 30)
 
-    raum = "fertig/bild0.jpg"
+    
  
 
     # Clock-Objekt erstellen, das wir benötigen, um die Framerate zu begrenzen.
@@ -158,11 +173,28 @@ def main():
                         gespalten = linie.rsplit("INVENTORY", 1)
                         inventarslot = int(gespalten[1])
                         if(inventarslot == 1):
-                            
+                            f = open("inventory.dat")
+                            slots = pickle.load(f)
+                            f.close()
+                            f = open("holding.dat")
+                            holding = pickle.load(f)
+                            f.close()
+                            f = open("position.dat")
+                            raum = pickle.load(f)
+                            f.close()
                             print("loaded")
                         elif(inventarslot == 6):
-                            
+                            output = open('inventory.dat', 'w')
+                            pickle.dump(slots, output)
+                            output.close()
+                            output = open('holding.dat', 'w')
+                            pickle.dump(holding, output)
+                            output.close()
+                            output = open('position.dat', 'w')
+                            pickle.dump(raum, output)
+                            output.close()
                             print("saved")
+                            
                         else:
                             inventarslot = inventarslot - 2
                             if(not holding == ""):
@@ -177,12 +209,12 @@ def main():
                                 holdingsurface = pygame.image.load("cursor.jpg")
                             else:
                                 holdingsurface = pygame.image.load(holding)
-                            j = 0
-                            for i in slots:
-                                if(not i == ""):
-                                    slotsurfaces[j] = pygame.image.load(i)
-                                
-                                j = j + 1
+                        j = 0
+                        for i in slots:
+                            if(not i == ""):
+                                slotsurfaces[j] = pygame.image.load(i)
+                            
+                            j = j + 1
                         linie = gespalten[0]
                             
             # Wir interessieren uns auch für "Taste gedrückt"-Events.
