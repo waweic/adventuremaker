@@ -61,6 +61,12 @@ while(True):
         clock = pygame.time.Clock()
         path = easygui.fileopenbox()
         image = path
+        fname = string.replace(image, '.jpg', '.txt')
+        if(not os.path.isfile(fname)):
+            datei = open(fname, "w")
+            datei.close()
+        inventar = pygame.image.load("inventar.png").convert_alpha()
+        
         #myfile = file(string.replace(image, '.jpg', '.txt'), 'w')   # File-Handle auf File 'test.txt' erstellen
         #myfile.close()
         print("Klick auf den ersten Punkt.")
@@ -80,7 +86,7 @@ while(True):
 
 
             screen.blit(pygame.image.load(image), (0, 0))
-
+            screen.blit(inventar, (800 - 350,600 - 70))
      
 
             # Alle aufgelaufenen Events holen und abarbeiten.
@@ -129,9 +135,14 @@ while(True):
                                 if err.errno == errno.ENOENT: # No 2: No such file or directory
                                     print "Bitte Verzeichnis erstellen!"
                                     sys.exit()
+
                             fobj_in = open(string.replace(image, '.jpg', '.txt')).read()
                             fobj_out = open(string.replace(image, '.jpg', '.txt'),"w")
-                            fobj_out.write(fobj_in + zeile + "\n")
+                            if(str(fobj_in).find("461A540X507B585INVENTORY1\n516A540X561B585INVENTORY2\n572A540X616B585INVENTORY3\n630A540X671B585INVENTORY4\n682A540X727B585INVENTORY5\n738A540X781B585INVENTORY6\n") == -1):
+                                zweitezeile = "461A540X507B585INVENTORY1\n516A540X561B585INVENTORY2\n572A540X616B585INVENTORY3\n630A540X671B585INVENTORY4\n682A540X727B585INVENTORY5\n738A540X781B585INVENTORY6\n"
+                            else:
+                                zweitezeile = ""
+                            fobj_out.write(fobj_in + zeile + "\n" + zweitezeile)
                             
                             fobj_out.close()
                             print("Klick auf den ersten Punkt.")
